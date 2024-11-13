@@ -5,8 +5,6 @@ import nodemailer from "nodemailer";
 dotenv.config();
 
 const transporter = nodemailer.createTransport({
-  
-
   sendMail: true,
   host: process.env.SMTP_HOST,
   secure: false,
@@ -16,22 +14,6 @@ const transporter = nodemailer.createTransport({
     pass: `${process.env.SMTP_PASSWORD}`,
   },
 });
-const sendMail = async (mailObject) => {
-  const mailOptions = {
-    from: process.env.SMTP_MAIL,
-    to: mailObject.to,
-    subject: mailObject.subject,
-    text: mailObject.text,
-    html: mailObject.html,
-  };
-
-  try {
-    await transporter.sendMail(mailOptions, (err, res) => res);
-  } catch (err) {
-    console.log("Error ::", err?.message);
-    return err;
-  }
-};
 export const wrapedAsyncSendMail = (mailOptions) =>
   new Promise((resolve) => {
     transporter.sendMail(mailOptions, (error, info) => {
@@ -44,7 +26,7 @@ export const wrapedAsyncSendMail = (mailOptions) =>
       }
     });
   });
-export const emailOTP = async (otp , email) => {
+export const emailOTP = async (otp, email) => {
   const mailOptions = {
     from: process.env.SMTP_MAIL,
     to: email,
