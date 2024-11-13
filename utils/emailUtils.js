@@ -1,6 +1,7 @@
-/* eslint-disable no-undef */
-import dotenv from "dotenv";
-import nodemailer from "nodemailer";
+/* eslint-disable no-console */
+ 
+import dotenv from 'dotenv';
+import nodemailer from 'nodemailer';
 
 dotenv.config();
 
@@ -11,8 +12,8 @@ const transporter = nodemailer.createTransport({
   port: process.env.SMTP_PORT,
   auth: {
     user: `${process.env.SMTP_MAIL}`,
-    pass: `${process.env.SMTP_PASSWORD}`,
-  },
+    pass: `${process.env.SMTP_PASSWORD}`
+  }
 });
 export const wrapedAsyncSendMail = (mailOptions) =>
   new Promise((resolve) => {
@@ -30,10 +31,10 @@ export const emailOTP = async (otp, email) => {
   const mailOptions = {
     from: process.env.SMTP_MAIL,
     to: email,
-    subject: "Your Verification OTP to ShoppersStop",
-    text: "Thanks for Registering on ShoppersStop",
+    subject: 'Your Verification OTP to ShoppersStop',
+    text: 'Thanks for Registering on ShoppersStop',
     html: `
-        <h1>Your OTP is ${otp}</h1>`,
+        <h1>Your OTP is ${otp}</h1>`
   };
   const resp = await wrapedAsyncSendMail(mailOptions);
   return resp;

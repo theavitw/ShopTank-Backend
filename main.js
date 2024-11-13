@@ -17,7 +17,7 @@ const prisma = new PrismaClient();
 
 const corsOptions = {
   origin: 'http://localhost:5173',
-  optionsSuccessStatus: 200,
+  optionsSuccessStatus: 200
 };
 
 app.use(cors(corsOptions));
@@ -34,7 +34,7 @@ app.post('/register', async (req, res) => {
 
     // Check if the email already exists
     const existingUser = await prisma.user.findUnique({
-      where: { email },
+      where: { email }
     });
     if (existingUser) {
       return res.status(400).send('Email already exists');
@@ -55,14 +55,12 @@ app.post('/register', async (req, res) => {
 
     const otpSent = await emailOTP(otp, email);
     if (!otpSent) {
-      return res
-        .status(400)
-        .json({ status: false, message: 'Failed to send OTP' });
+      return res.status(400).json({ status: false, message: 'Failed to send OTP' });
     }
     if (!otpSent) {
       return res.status(400).json({
         status: false,
-        message: 'Invalid Email Address',
+        message: 'Invalid Email Address'
       });
     }
 
@@ -72,16 +70,14 @@ app.post('/register', async (req, res) => {
         email,
         password: hashedPassword,
         googleToken: googleToken || '',
-        otp,
-      },
+        otp
+      }
     });
 
-    return res.status(200).json({
+    return res.status(200).send.json({
       status: true,
-      message: 'User registered successfully, Please check your email for OTP.',
+      message: 'User registered successfully, Please check your email for OTP.'
     });
-  
-    res.send('User registered successfully');
   } catch (error) {
     console.error('Error registering user:', error);
     res.status(500).send('Failed to register user');
@@ -98,7 +94,7 @@ app.post('/login', async (req, res) => {
 
     // Fetch user by email using Prisma
     const user = await prisma.user.findUnique({
-      where: { email },
+      where: { email }
     });
 
     if (!user) {
@@ -113,14 +109,14 @@ app.post('/login', async (req, res) => {
         res.status(200).send({
           string: 'Logged in successfully',
           token: user.password,
-          user,
+          user
         });
       }
     } else if (googleToken && googleToken === user.googleToken) {
       res.status(200).send({
         string: 'Logged in successfully',
         token: user.googleToken,
-        user,
+        user
       });
     } else {
       return res.status(401).send({ string: 'Kindly Login With Password' });
@@ -141,7 +137,7 @@ app.post('/validate-otp', async (req, res) => {
 
     // Fetch user by email using Prisma
     const user = await prisma.user.findUnique({
-      where: { email },
+      where: { email }
     });
 
     if (!user) {
@@ -169,7 +165,7 @@ app.post('/logout', async (req, res) => {
       // Update the cart in the user's record using Prisma
       await prisma.user.update({
         where: { email },
-        data: { cart: JSON.stringify(cart) },
+        data: { cart: JSON.stringify(cart) }
       });
     }
 
