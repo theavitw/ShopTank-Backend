@@ -1,0 +1,19 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL") // This should point to your existing PostgreSQL database.
+}
+
+model User {
+  id          Int      @id @default(autoincrement())
+  name        String
+  email       String   @unique
+  password    String?  @default("")
+  googleToken String?  @default("")
+  cart        Json?    @default("[]")
+  otp         String?  @default("")
+  createdAt   DateTime @default(now())
+}
