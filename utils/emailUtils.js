@@ -1,9 +1,12 @@
+/* eslint-disable no-undef */
 import dotenv from "dotenv";
 import nodemailer from "nodemailer";
 
 dotenv.config();
 
 const transporter = nodemailer.createTransport({
+  
+
   sendMail: true,
   host: process.env.SMTP_HOST,
   secure: false,
