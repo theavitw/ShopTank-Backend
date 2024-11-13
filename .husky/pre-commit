@@ -1,1 +1,3 @@
-npx eslint .
+# .husky/pre-commit
+npx lint-staged
+npm run build # This runs the build command before committing

@@ -10,13 +10,11 @@
     "lint": "eslint .",
     "prepare": "husky install"
   },
-  "husky": {
-    "hooks": {
-      "pre-commit": "lint-staged"
-    }
-  },
   "lint-staged": {
-    "*.js": "eslint --fix"
+    "*.js": [
+      "prettier --write",
+      "eslint --fix"
+    ]
   },
   "author": "",
   "type": "module",
