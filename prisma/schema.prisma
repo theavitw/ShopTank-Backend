@@ -13,7 +13,7 @@ model User {
   email       String   @unique
   password    String?  @default("")
   googleToken String?  @default("")
-  cart        Json?    @default("[]")
+  cart        Json?
   otp         String?  @default("")
   createdAt   DateTime @default(now())
 }

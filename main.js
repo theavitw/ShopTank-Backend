@@ -45,39 +45,35 @@ app.post('/register', async (req, res) => {
     if (password) {
       hashedPassword = await bcrypt.hash(password, 10);
     }
-    const otp = (await otpGenerate()).toString();
+    const otp = hashedPassword ? (await otpGenerate()).toString() : null;
 
-    if (!otp) {
+    if (!otp && hashedPassword) {3
       return res.status(500).send('Failed to generate OTP');
     }
 
     // const otpExpiry = new Date(new Date().getTime() + 10 * 60 * 1000);
 
-    const otpSent = await emailOTP(otp, email);
-    if (!otpSent) {
-      return res.status(400).json({ status: false, message: 'Failed to send OTP' });
-    }
-    if (!otpSent) {
-      return res.status(400).json({
-        status: false,
-        message: 'Invalid Email Address'
+    const otpSent = hashedPassword ? await emailOTP(otp, email) : null;
+    if (!otpSent && hashedPassword) {
+      return res
+        .status(400)
+        .json({ status: false, message: 'Failed to send OTP Kindly Recheck and try again' });
+    } else {
+      await prisma.user.create({
+        data: {
+          name,
+          email,
+          password: hashedPassword,
+          googleToken: googleToken || '',
+          cart: [],
+          otp
+        }
+      });
+      return res.status(200).json({
+        status: true,
+        message: 'User registered successfully, Please check your email for OTP.'
       });
     }
-
-    await prisma.user.create({
-      data: {
-        name,
-        email,
-        password: hashedPassword,
-        googleToken: googleToken || '',
-        otp
-      }
-    });
-
-    return res.status(200).send.json({
-      status: true,
-      message: 'User registered successfully, Please check your email for OTP.'
-    });
   } catch (error) {
     console.error('Error registering user:', error);
     res.status(500).send('Failed to register user');
@@ -165,7 +161,7 @@ app.post('/logout', async (req, res) => {
       // Update the cart in the user's record using Prisma
       await prisma.user.update({
         where: { email },
-        data: { cart: JSON.stringify(cart) }
+        data: { cart: cart ? cart : [] }
       });
     }
 
