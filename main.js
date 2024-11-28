@@ -16,7 +16,15 @@ const port = 8080;
 const prisma = new PrismaClient();
 
 const corsOptions = {
-  origin: 'https://shoppersstopsite.netlify.app/',
+  origin: [
+    'http://44.226.145.213',
+    'http://localhost:3000',
+    'http://54.187.200.255',
+    'http://34.213.214.55',
+    'http://35.164.95.156',
+    'http://44.229.200.200',
+    'http://44.230.95.183'
+  ],
   optionsSuccessStatus: 200
 };
 
