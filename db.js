@@ -1,10 +1,11 @@
+/* eslint-disable no-console */
 // db.js
-import pg from "pg";
-import dotenv from "dotenv";
+import pg from 'pg';
+import dotenv from 'dotenv';
 
 dotenv.config();
 
-const { Pool } = pg;
+const { Pool } = pg; 
 
 const pool = new Pool({
     user: process.env.PG_USER,
@@ -15,7 +16,7 @@ const pool = new Pool({
 });
 
 pool.connect()
-    .then(() => console.log("PostgreSQL connected"))
-    .catch(err => console.error("PostgreSQL connection error:", err));
+    .then(() => console.log('PostgreSQL connected'))
+    .catch(err => console.error('PostgreSQL connection error:', err));
 
 export default pool;
