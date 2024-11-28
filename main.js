@@ -7,7 +7,7 @@ import bcrypt from 'bcrypt';
 import cookieParser from 'cookie-parser';
 import dotenv from 'dotenv';
 import { otpGenerate } from './utils/helper.js';
-import { emailOTP } from './utils/emailuTILS.js';
+import { emailOTP } from './utils/emailUtils.js';
 
 dotenv.config();
 
