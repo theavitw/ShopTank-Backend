@@ -15,20 +15,20 @@ const app = express();
 const port = 8080;
 const prisma = new PrismaClient();
 
-const corsOptions = {
-  origin: [
-    'http://44.226.145.213',
-    'http://localhost:3000',
-    'http://54.187.200.255',
-    'http://34.213.214.55',
-    'http://35.164.95.156',
-    'http://44.229.200.200',
-    'http://44.230.95.183'
-  ],
-  optionsSuccessStatus: 200
-};
+// const corsOptions = {
+//   origin: [
+//     'http://44.226.145.213',
+//     'http://localhost:5173/',
+//     'http://54.187.200.255',
+//     'http://34.213.214.55',
+//     'http://35.164.95.156',
+//     'http://44.229.200.200',
+//     'http://44.230.95.183'
+//   ],
+//   optionsSuccessStatus: 200
+// };
 
-app.use(cors(corsOptions));
+app.use(cors());
 app.use(express.json());
 app.use(cookieParser());
 
