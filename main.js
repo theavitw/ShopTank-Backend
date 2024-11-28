@@ -47,7 +47,8 @@ app.post('/register', async (req, res) => {
     }
     const otp = hashedPassword ? (await otpGenerate()).toString() : null;
 
-    if (!otp && hashedPassword) {3
+    if (!otp && hashedPassword) {
+      3;
       return res.status(500).send('Failed to generate OTP');
     }
 
@@ -169,6 +170,16 @@ app.post('/logout', async (req, res) => {
   } catch (error) {
     console.error('Error logging out:', error);
     res.status(500).send({ string: 'Failed to logout' });
+  }
+});
+
+app.get('/users', async (req, res) => {
+  try {
+    const users = await prisma.user.findMany();
+    res.status(200).json(users);
+  } catch (error) {
+    console.error('Error fetching users:', error);
+    res.status(500).send('Failed to fetch users');
   }
 });
 
